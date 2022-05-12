@@ -91,7 +91,8 @@ Set Description to `Wordpress DB Password`
 Set Tier to `Standard`  
 Set Type to `SecureString`  
 Set `KMS Key Source` to `My Current Account`  
-Leave `KMS Key ID` as default
+Leave `KMS Key ID` as default.
+
 Set `Value` to `1234567890.`  you can as well choose your own passwrd but!!!! MAKE SURE TO REMEMBER IT!!!!!!!!
 Click `Create parameter`  
 
