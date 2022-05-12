@@ -1,11 +1,11 @@
-# Advanced Demo - Web App - Single Server to Elastic Evolution
+# Welcome to Phase 2
 
 
-In stage 2 of this advanced demo lesson you are going to create a launch template which can automate the build of WordPress.  
-The architecture will still use the single instance for both the WordPress application and database, the only change will be an automatic build rather than manual.  
+In Phase 2 we are going to create a launch template which can automate the build of WordPress.  
+The architecture will still use the single instance for both the WordPress application and database, the only change will be an automatic process rather than manually installing all the pre-reqs. 
 Any level of automation/self-healing or scaling architecture will need a bootstrapped or AMI-baked build to function effectively.
 
-# STAGE 2A - Create the Launch Template
+# Phase 2A - Create the Launch Template
 
 Open the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name  
 Click `Launch Templates` under `Instances` on the left menu  
@@ -15,18 +15,19 @@ Under `Templace version description` enter `Single server DB and App`
 Check the `Provide guidance to help me set up a template that I can use with EC2 Auto Scaling` box  
 
 Under `Amazon machine image (AMI) - required` click and locate `Amazon Linux 2 AMI (HVM), SSD Volume TYpe, Architecture: 64-bit (x86)`  
-Under `Instance Type` select `t2.micro` (or whichever is listed as free tier eligable)  
+Under `Instance Type` select `t2.micro` (or whichever is listed as free tier eligable in your region but i recommend using us-east-1 or N.Virginia region)  
 Under `Key pair (login)` select `Don't include in launch template`  
 Under `networking Settings` make sure `Virtual Private Cloud (VPC)` is selected
-Under `Security Groups` select `A4LVPC-SGWordpress`  
+Under `Security Groups` select `Sunday-SGWordpress`  
 Expand `Advanced Details`
-Under `IAM instance profile` select `A4LVPC-WordpressInstanceProfile`  
-Under `Credit specification` select `Unlimited`
+Under `IAM instance profile` select `Sunday-WordpressInstanceProfile`  
+Under `Credit specification` select `Unlimited` its fine as wwe wot be going over the burst limit...
 
-# STAGE 2B - Add Userdata
+# Phase 2B - Add Userdata
 
-At this point we need to add the configuration which will build the instance
-Enter the user data below into the `User Data` box
+At this point we need to add the configuration which will build the instance and install all we have manually installed in the previous phase, now all will be installed upon launch.
+
+Copy the user data below into the `User Data` box
 
 ```
 #!/bin/bash -xe
@@ -79,18 +80,19 @@ Ensure to leave a blank line at the end
 Click `Create Launch Template`  
 Click `View Launch Templates`
 
+if you take a close look at the user-data you will find out that it contains commnands and syntax which we used when manually installing Wordpress and  pre-reqs..
 
-# STAGE 2C - Launch an instance using it
+# Phase 2C - Launch an instance using it
 
 Select the launch template in the list ... it should be called `Wordpress`  
 Click `Actions` and `Launch instance from template`
-Scroll down to `Network settings` and under `Subnet` select `sn-pub-A`  
+Scroll down to `Network settings` and under `Subnet` select `SN-PUB-A`  
 Scroll to `Resource Tags` click `Add tag`
 Set `Key` to `Name` and `Value` to `Wordpress-LT`
 Scroll to the bottom and click `Launch Instance from template`  
 Click the instance id in the `Success` box
 
-# STAGE 2D - Test
+# Phase 2D - Test if our wordpress has been installed
 
 Open the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name  
 Select the `Wordpress-LT` instance  
@@ -98,10 +100,11 @@ copy the `IPv4 Public IP` into your clipboard
 Open that IP in a new tab  
 You should see the WordPress welcome page  
 
-## Perform Initial COnfiguration and make a post
+## Perform Initial Configuration and make a post
 
-in `Site Title` enter `Catagram`  
-in `Username` enter `admin`
+Again
+in `Site Title` enter `Sunny-Sunday blog!` or your preferred title. 
+in `Username` enter `admin` or your preferred username
 in `Password` it should suggest a strong password for the wordpress admin user, feel free to use this or choose your own - regardless, write it down somewhere safe. 
 in `Your Email` enter your email address  
 Click `Install WordPress`
@@ -117,10 +120,10 @@ Click `Apply`
 
 Click `Add New`  
 If you see any popups close them down  
-For title `The Best Animal(s)!`  
+For title `what a beautifull process`  or your preferred title 
 Click the `+` under the title, select  `Gallery` 
 Click `Upload`  
-Select some animal pictures.... if you don't have any use google images to download some  
+Select some awesome pictures.... if you don't have any use google images to download some  
 Upload them  
 Click `Publish`  
 Click `Publish`
@@ -129,7 +132,7 @@ Click `view Post`
 This is your working, auto built WordPress instance
 ** don't terminate the instance this time - we're going to migrate the database in stage 3**
 
-# STAGE 2 - FINISH  
+# Phase 2 - FINISHED  
 
 This configuration has several limitations :-
 
@@ -143,4 +146,4 @@ This configuration has several limitations :-
 - The IP of the instance is hardcoded into the database ....
 
 
-You can now move onto STAGE3
+You can now move onto Phase-3
