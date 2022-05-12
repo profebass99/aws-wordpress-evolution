@@ -99,7 +99,7 @@ Move to the RDS Console https://console.aws.amazon.com/rds/home?region=us-east-1
 Click the `a4lWordPressdb` instance  
 Copy the `endpoint` into your clipboard  
 Move to the Parameter store https://console.aws.amazon.com/systems-manager/parameters?region=us-east-1  
-Check the box next to `/Sunday/Wordpress/DBEndpoint` and click `Delete`
+Check the box next to `/Sunday/Wordpress/DBEndpoint` and click `Delete` or edit if you choose but i recommend delete...
 Click `Create Parameter`  
 
 Under `Name` enter `/Sunday/Wordpress/DBEndpoint`  
@@ -120,7 +120,7 @@ DBEndpoint=`echo $DBEndpoint | sed -e 's/^"//' -e 's/"$//'`
 Restore the database export into RDS using
 
 ```
-mysql -h $DBEndpoint -u $DBUser -p$DBPassword $DBName < a4lWordPress.sql 
+mysql -h $DBEndpoint -u $DBUser -p$DBPassword $DBName < Sundaywordpress.sql 
 ```
 
 ## Change the WordPress config file to use RDS
