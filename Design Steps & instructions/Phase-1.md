@@ -105,100 +105,138 @@ Leave `KMS Key ID` as default
 Set `Value` to `1234567890.`
 Click `Create parameter`  
 
-STAGE 1C - Connect to the instance and install a database and wordpress
-Right click on Wordpress-Manual choose Connect Choose Session Manager
-Click Connect
-type bash and press enter
-type cd and press enter
-type clear and press enter
+# Phase 1D - Connect to the instance and install a database and wordpress
+Right click on `Wordpress-Manual` instance choose `Connect`
+Choose `Session Manager`  
+Click `Connect`  
+type `bash` and press enter  
+type `cd` and press enter  
+type `clear` and press enter
 
-Bring in the parameter values from SSM
-Run the commands below to bring the parameter store values into ENV variables to make the manual build easier.
+## Bring in the parameter values from SSM
 
-DBPassword=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBPassword --with-decryption --query Parameters[0].Value)
+Run the commands below to bring the parameter store values into ENV variables to make the manual build easier.  
+
+```
+DBPassword=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBPassword --with-decryption --query Parameters[0].Value)
 DBPassword=`echo $DBPassword | sed -e 's/^"//' -e 's/"$//'`
-
-DBRootPassword=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBRootPassword --with-decryption --query Parameters[0].Value)
+DBRootPassword=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBRootPassword --with-decryption --query Parameters[0].Value)
 DBRootPassword=`echo $DBRootPassword | sed -e 's/^"//' -e 's/"$//'`
-
-DBUser=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBUser --query Parameters[0].Value)
+DBUser=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBUser --query Parameters[0].Value)
 DBUser=`echo $DBUser | sed -e 's/^"//' -e 's/"$//'`
-
-DBName=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBName --query Parameters[0].Value)
+DBName=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBName --query Parameters[0].Value)
 DBName=`echo $DBName | sed -e 's/^"//' -e 's/"$//'`
-
-DBEndpoint=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBEndpoint --query Parameters[0].Value)
+DBEndpoint=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBEndpoint --query Parameters[0].Value)
 DBEndpoint=`echo $DBEndpoint | sed -e 's/^"//' -e 's/"$//'`
+```
 
-Install updates
+## Install updates on your Machine
+
+```
 sudo yum -y update
 sudo yum -y upgrade
+```
 
-Install Pre-Reqs and Web Server
+## Install Pre-Reqs and Web Server 
+
+```
 sudo yum install -y mariadb-server httpd wget
 sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
 sudo amazon-linux-extras install epel -y
 sudo yum install stress -y
+```
 
-Set DB and HTTP Server to running and start by default
+## Set DB and HTTP Server to running and to  start by default
+
+```
 sudo systemctl enable httpd
 sudo systemctl enable mariadb
 sudo systemctl start httpd
 sudo systemctl start mariadb
-Set the MariaDB Root Password
+```
+
+## Set the MariaDB Root Password
+
+```
 sudo mysqladmin -u root password $DBRootPassword
-Download and extract Wordpress
+```
+
+## Download and extract Wordpress
+
+```
 sudo wget http://wordpress.org/latest.tar.gz -P /var/www/html
 cd /var/www/html
 sudo tar -zxvf latest.tar.gz
 sudo cp -rvf wordpress/* .
 sudo rm -R wordpress
 sudo rm latest.tar.gz
-Configure the wordpress wp-config.php file
+```
+
+## Configure the wordpress wp-config.php file 
+
+```
 sudo cp ./wp-config-sample.php ./wp-config.php
 sudo sed -i "s/'database_name_here'/'$DBName'/g" wp-config.php
 sudo sed -i "s/'username_here'/'$DBUser'/g" wp-config.php
 sudo sed -i "s/'password_here'/'$DBPassword'/g" wp-config.php
-Fix Permissions on the filesystem
+```
+
+## Fix Permissions on the filesystem
+
+```
 sudo usermod -a -G apache ec2-user   
 sudo chown -R ec2-user:apache /var/www
 sudo chmod 2775 /var/www
 sudo find /var/www -type d -exec chmod 2775 {} \;
 sudo find /var/www -type f -exec chmod 0664 {} \;
-Create Wordpress User, set its password, create the database and configure permissions
+```
+
+## Create Wordpress User, set its password, create the database and configure permissions
+
+```
 sudo echo "CREATE DATABASE $DBName;" >> /tmp/db.setup
 sudo echo "CREATE USER '$DBUser'@'localhost' IDENTIFIED BY '$DBPassword';" >> /tmp/db.setup
 sudo echo "GRANT ALL ON $DBName.* TO '$DBUser'@'localhost';" >> /tmp/db.setup
 sudo echo "FLUSH PRIVILEGES;" >> /tmp/db.setup
 sudo mysql -u root --password=$DBRootPassword < /tmp/db.setup
 sudo rm /tmp/db.setup
-Test Wordpress is installed
-Open the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name
-Select the Wordpress-Manual instance
-copy the IPv4 Public IP into your clipboard
-Open that IP in a new tab
-You should see the wordpress welcome page
+```
 
-Perform Initial Configuration and make a post
-in Site Title enter Catagram
-in Username enter admin in Password it should suggest a strong password for the wordpress admin user, feel free to use this or choose your own - regardless, write it down somewhere safe.
-in Your Email enter your email address
-Click Install WordPress Click Log In
-In Username or Email Address enter admin
-in Password enter the previously noted down strong password
-Click Log In
+## Test Wordpress is installed
 
-Click Posts in the menu on the left
-Select Hello World! Click Bulk Actions and select Move to Trash Click Apply
+Open the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name  
+Select the `Wordpress-Manual` instance  
+copy the `IPv4 Public IP` into your clipboard  
+Open that IP in a new tab  
+You should see the wordpress welcome page  
 
-Click Add New
-If you see any popups close them down
-For title The Best Animal(s)!
-Click the + under the title, select Gallery Click Upload
-Select some animal pictures.... if you dont have any use google images to download some
-Upload them
-Click Publish
-Click Publish Click view Post
+## Perform Initial Configuration and make a post
+
+in `Site Title` enter `Sunday-blog` or your preferred title   
+in `Username` i recommend you use  `admin` or your preferred username
+in `Password` it should suggest a strong password for the wordpress admin user, feel free to use this or choose your own - regardless, write it down somewhere safe.  
+in `Your Email` enter your email address  
+Click `Install WordPress`
+Click `Log In`  
+In `Username or Email Address` enter `admin` or your previously used username 
+in `Password` enter the previously noted down strong password  
+Click `Log In`  
+
+Click `Posts` in the menu on the left  
+Select `Hello World!` 
+Click `Bulk Actions` and select `Move to Trash`
+Click `Apply`  
+
+Click `Add New`  
+If you see any popups close them down  
+For title `Lets talk about Sunny-Sunday blog!`  or choose your preffered blog title
+Click the `+` under the title, select  `Gallery` 
+Click `Upload`  
+Select some animal pictures.... if you dont have any use google images to download some  
+Upload them  
+Click `Publish`  
+Click `Publish`
+Click `view Post`  
 
 This is your working, manually installed and configured wordpress
 
