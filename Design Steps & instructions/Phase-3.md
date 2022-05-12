@@ -1,10 +1,9 @@
 # Welcome to Phase-3
 
 
-In Phase 3 you will be splitting out the database functionality from the EC2 instance .. running MariaDB to an RDS instance running the MySQL Engine.  
-This will allow the DB and Instance to scale independently, and will allow the data to be secure past the lifetime of the EC2 instance.  
+In Phase 3 you will be splitting out the database functionality from the EC2 instance .. running MariaDB to an RDS instance running the MySQL Engine. This will allow the DB and Instance to scale independently, and will allow the data to be secure past the lifetime of the EC2 instance.  
 
-# STAGE 3A - Create RDS Subnet Group
+# Phase 3A - Create RDS Subnet Group
 
 A subnet group is what allows RDS to select from a range of subnets to put its databases inside  
 In this case you will give it a selection of 3 subnets sn-db-A / B and C  
@@ -27,7 +26,7 @@ Under `Subnets` check the box next to
 
 Click `Create`  
 
-# STAGE 3B - Create RDS Instance
+# Phase 3B - Create RDS Instance
 
 In this sub stage of the demo, you are going to provision an RDS instance using the subnet group to control placement within the VPC.   
 Normally you would use multi-az for production, to keep costs low, for now you should use a single AZ as per the instructions below.  
@@ -41,24 +40,24 @@ Under `Version` select `MySQL 5.7.31` (best aurora compatability for snapshot mi
 Scroll down and select `Free Tier` under templates
 _this ensures there will be no costs for the database but it will be single AZ only_
 
-under `Db instance identifier` enter `a4lWordPress`
-under `Master Username` enter enter the value from here https://console.aws.amazon.com/systems-manager/parameters/A4L/Wordpress/DBUser/description?region=us-east-1&tab=Table  
-under `Master Password` and `Confirm Password` enter the value from here https://console.aws.amazon.com/systems-manager/parameters/A4L/Wordpress/DBPassword/description?region=us-east-1&tab=Table  
+under `Db instance identifier` enter `Sundaywordpress` or your preferred `Db instance identifier` make sure to remember that!!!!!!!!!! important
+under `Master Username` enter enter the value from here https://console.aws.amazon.com/systems-manager/parameters/Sunday/Wordpress/DBUser/description?region=us-east-1&tab=Table  
+under `Master Password` and `Confirm Password` enter the value from here https://console.aws.amazon.com/systems-manager/parameters/Sunday/Wordpress/DBPassword/description?region=us-east-1&tab=Table  
 
 Under `DB Instance size`, then `DB instance class`, then `Burstable classes (includes t classes)` make sure db.t2.micro is selected  
-Scroll down, under `Connectivity`, `Virtual private cloud (VPC)` select `A4LVPC`  
+Scroll down, under `Connectivity`, `Virtual private cloud (VPC)` select `Sunday-VPC`  
 Expand `Additional connectivity configuration` 
 Ensure under `Subnet group` that `wordpressrdssubnetgroup` is selected  
 Make sure `Publicly accessible` is set to `No`  
-Under `Existing VPC security groups` add `A4LVPC-SG-Database` and remove `Default`  
+Under `Existing VPC security groups` add `Sunday-VPC-SG-Database` and remove `Default`  
 Under `Availability Zone` set `us-east-1a`  
 Scroll down and expand `Additional configuration`  
-in the `Initial database name` box enter the value from here https://console.aws.amazon.com/systems-manager/parameters/A4L/Wordpress/DBName/description?region=us-east-1&tab=Table  
+in the `Initial database name` box enter the value from here https://console.aws.amazon.com/systems-manager/parameters/Sunday/Wordpress/DBName/description?region=us-east-1&tab=Table  
 Scroll to the bottom and click `create Database`  
 
 ** this will take anywhere up to 30 minutes to create ... it will need to be fully ready before you move to the next step - coffee time !!!! **
 
-# STAGE 3C - Migrate WordPress data from MariaDB to RDS
+# Phase 3C - Migrate WordPress data from MariaDB to RDS
 
 Open the EC2 Console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Home:  
 Click `Instances`  
@@ -73,15 +72,15 @@ You're going to do an export of the SQL database running on the local ec2 instan
 
 First run these commands to populate variables with the data from Parameter store, it avoids having to keep locating passwords  
 ```
-DBPassword=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBPassword --with-decryption --query Parameters[0].Value)
+DBPassword=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBPassword --with-decryption --query Parameters[0].Value)
 DBPassword=`echo $DBPassword | sed -e 's/^"//' -e 's/"$//'`
-DBRootPassword=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBRootPassword --with-decryption --query Parameters[0].Value)
+DBRootPassword=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBRootPassword --with-decryption --query Parameters[0].Value)
 DBRootPassword=`echo $DBRootPassword | sed -e 's/^"//' -e 's/"$//'`
-DBUser=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBUser --query Parameters[0].Value)
+DBUser=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBUser --query Parameters[0].Value)
 DBUser=`echo $DBUser | sed -e 's/^"//' -e 's/"$//'`
-DBName=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBName --query Parameters[0].Value)
+DBName=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBName --query Parameters[0].Value)
 DBName=`echo $DBName | sed -e 's/^"//' -e 's/"$//'`
-DBEndpoint=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBEndpoint --query Parameters[0].Value)
+DBEndpoint=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBEndpoint --query Parameters[0].Value)
 DBEndpoint=`echo $DBEndpoint | sed -e 's/^"//' -e 's/"$//'`
 ```
 
@@ -90,7 +89,7 @@ DBEndpoint=`echo $DBEndpoint | sed -e 's/^"//' -e 's/"$//'`
 To take a backup of the database run
 
 ```
-mysqldump -h $DBEndpoint -u $DBUser -p$DBPassword $DBName > a4lWordPress.sql
+mysqldump -h $DBEndpoint -u $DBUser -p$DBPassword $DBName > Sundaywordpress.sql
 ```
 ** in production you wouldnt put the password in the CLI like this, its a security risk since a ps -aux can see it .. but security isnt the focus of this demo its the process of rearchitecting **
 
@@ -100,10 +99,10 @@ Move to the RDS Console https://console.aws.amazon.com/rds/home?region=us-east-1
 Click the `a4lWordPressdb` instance  
 Copy the `endpoint` into your clipboard  
 Move to the Parameter store https://console.aws.amazon.com/systems-manager/parameters?region=us-east-1  
-Check the box next to `/A4L/Wordpress/DBEndpoint` and click `Delete`
+Check the box next to `/Sunday/Wordpress/DBEndpoint` and click `Delete`
 Click `Create Parameter`  
 
-Under `Name` enter `/A4L/Wordpress/DBEndpoint`  
+Under `Name` enter `/Sunday/Wordpress/DBEndpoint`  
 Under `Descripton` enter `WordPress Endpoint Name`  
 Under `Tier` select `Standard`    
 Under `Type` select `String`  
@@ -114,7 +113,7 @@ Click `Create Parameter`
 Update the DbEndpoint environment variable with 
 
 ```
-DBEndpoint=$(aws ssm get-parameters --region us-east-1 --names /A4L/Wordpress/DBEndpoint --query Parameters[0].Value)
+DBEndpoint=$(aws ssm get-parameters --region us-east-1 --names /Sunday/Wordpress/DBEndpoint --query Parameters[0].Value)
 DBEndpoint=`echo $DBEndpoint | sed -e 's/^"//' -e 's/"$//'`
 ```
 
@@ -141,7 +140,7 @@ sudo systemctl stop mariadb
 ```
 
 
-# STAGE 3E - Test WordPress
+# Phase 3E - Test WordPress
 
 Move to the EC2 Console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name  
 Select the `WordPress-LT` Instance  
@@ -150,7 +149,7 @@ Open the IP in a new tab
 You should see the blog, working, even though MariaDB on the EC2 instance is stopped and disabled
 Its now running using RDS  
 
-# STAGE 3F - Update the LT so it doesnt install 
+# Phase 3F - Update the LT so it doesnt install 
 
 Move to the EC2 Console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Home:  
 Under `Instances` click `Launch Templates`  
@@ -184,7 +183,7 @@ Click `Actions` and select `Set Default Version`
 Under `Template version` select `2`  
 Click `Set as default version`  
 
-# STAGE 3 - FINISH  
+# Phase 3 - FINISHED  
 
 This configuration has several limitations :-
 
@@ -198,4 +197,4 @@ This configuration has several limitations :-
 - The IP of the instance is hardcoded into the database ....
 
 
-You can now move onto STAGE 4
+You can now move onto Phase-4
