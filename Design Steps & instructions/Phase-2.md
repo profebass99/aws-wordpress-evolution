@@ -1,4 +1,4 @@
-# Welcome to Phase 2
+# Welcome to Phase-2
 
 
 In Phase 2 we are going to create a launch template which can automate the build of WordPress.  
