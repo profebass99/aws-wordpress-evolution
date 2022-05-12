@@ -52,8 +52,6 @@ In this sub-section you are going to create parameters to store the important co
 Open a new tab to https://console.aws.amazon.com/systems-manager/home?region=us-east-1  
 Click on `Parameter Store` on the menu on the left
 
-## Create Parameter - DBUser (the login for the specific wordpress DB)
-
 ## Create Parameter - DBUser (the login for the specific wordpress DB)  
 Click `Create Parameter`
 Set Name to `/Sunday/Wordpress/DBUser`
