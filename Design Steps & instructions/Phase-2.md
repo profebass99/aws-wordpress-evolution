@@ -146,4 +146,4 @@ This configuration has several limitations :-
 - The IP of the instance is hardcoded into the database ....
 
 
-You can now move onto Phase-3
+You can now move onto [Phase-3](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20&%20instructions/Phase-3.md)
