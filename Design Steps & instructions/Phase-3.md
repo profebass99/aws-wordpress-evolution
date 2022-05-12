@@ -55,7 +55,7 @@ Scroll down and expand `Additional configuration`
 in the `Initial database name` box enter the value from here https://console.aws.amazon.com/systems-manager/parameters/Sunday/Wordpress/DBName/description?region=us-east-1&tab=Table  
 Scroll to the bottom and click `create Database`  
 
-** this will take anywhere up to 30 minutes to create ... it will need to be fully ready before you move to the next step - coffee time !!!! **
+** this will take anywhere up to 30 minutes to create ... it will need to be fully ready before you move to the next step - break time 😉!!!! **
 
 # Phase 3C - Migrate WordPress data from MariaDB to RDS
 
