@@ -260,4 +260,4 @@ This configuration has several limitations which you will resolve one by one wit
 - The images are pointing at the old IP address...
 -Now you can go and terminate your instance 
 
-You can now move onto Phase2()
+You can now move onto [Phase2](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20&%20instructions/Phase-2.md)
