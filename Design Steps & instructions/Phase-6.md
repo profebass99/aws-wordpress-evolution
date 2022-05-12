@@ -84,4 +84,4 @@ This is a good way to do a rolling refresh of instances in an ASG.
 
 This is the end of the architecture evolution, 
 
-** NOW PROCEED TO CLEAN-UP** [Phase-7]()
+**NOW PROCEED TO CLEAN-UP** [Phase-7](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20%26%20instructions/phase-7%20clean-up.md)
