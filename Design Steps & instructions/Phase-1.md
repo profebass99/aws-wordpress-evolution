@@ -240,7 +240,7 @@ Click `view Post`
 
 This is your working, manually installed and configured wordpress
 
-# Phase 1 - FINISH  
+# Phase 1 - FINISHED
 
 This configuration has several limitations which you will resolve one by one within this lesson :-
 
@@ -260,4 +260,4 @@ This configuration has several limitations which you will resolve one by one wit
 - The images are pointing at the old IP address...
 -Now you can go and terminate your instance 
 
-You can now move onto Phase2
+You can now move onto Phase2()
