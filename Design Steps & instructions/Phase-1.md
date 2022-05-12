@@ -84,7 +84,7 @@ Click `Create parameter`
 
 ## Create Parameter - DBPassword (the password for the DBUser)  
 Click `Create Parameter`
-Set Name to `/A4L/Wordpress/DBPassword`
+Set Name to `/Sunday/Wordpress/DBPassword`
 Set Description to `Wordpress DB Password`  
 Set Tier to `Standard`  
 Set Type to `SecureString`  
@@ -102,7 +102,7 @@ Set Tier to `Standard`
 Set Type to `SecureString`  
 Set `KMS Key Source` to `My Current Account`  
 Leave `KMS Key ID` as default
-Set `Value` to `1234567890.`
+Set `Value` to `1234567890.`   you can as well choose your own passwrd but!!!! MAKE SURE TO REMEMBER IT!!!!!!!!
 Click `Create parameter`  
 
 # Phase 1D - Connect to the instance and install a database and wordpress
@@ -212,8 +212,8 @@ You should see the wordpress welcome page
 
 ## Perform Initial Configuration and make a post
 
-in `Site Title` enter `Sunday-blog` or your preferred title   
-in `Username` i recommend you use  `admin` or your preferred username
+in `Site Title` enter `Sunday-blog` or your preferred site title ¿  
+in `Username` i recommend  using  `admin` but you can choose your preferred username thats fine!!!
 in `Password` it should suggest a strong password for the wordpress admin user, feel free to use this or choose your own - regardless, write it down somewhere safe.  
 in `Your Email` enter your email address  
 Click `Install WordPress`
@@ -232,7 +232,7 @@ If you see any popups close them down
 For title `Lets talk about Sunny-Sunday blog!`  or choose your preffered blog title
 Click the `+` under the title, select  `Gallery` 
 Click `Upload`  
-Select some animal pictures.... if you dont have any use google images to download some  
+Choose some nice pictures.... if you dont have any use google images to download some  
 Upload them  
 Click `Publish`  
 Click `Publish`
@@ -240,21 +240,24 @@ Click `view Post`
 
 This is your working, manually installed and configured wordpress
 
-STAGE 1 - FINISH
+# Phase 1 - FINISH  
+
 This configuration has several limitations which you will resolve one by one within this lesson :-
 
-The application and database are built manually, taking time and not allowing automation
-^^ it was slow and annoying ... that was the intention.
-The database and application are on the same instance, neither can scale without the other
-The database of the application is on an instance, scaling IN/OUT risks this media
-The application media and UI store is local to an instance, scaling IN/OUT risks this media
-Customer Connections are to an instance directly ... no health checks/auto healing
-The IP of the instance is hardcoded into the database ....
-Go to https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name
-Right click Wordpress-Manual , Instance State, Stop, Yes, Stop
-Right click Wordpress-Manual , Instance State, Start, Yes, Start
-the IP address has changed ... which is bad
-Try browsing to it ...
-What about the images....?
-The images are pointing at the old IP address...
-Right click Wordpress-Manual , Instance State, Terminate, Yes, Terminate
+- The application and database are built manually, taking time and not allowing automation
+- ^^ it was slow and annoying ... that was the intention.
+- The database and application are on the same instance, neither can scale without the other
+- The database of the application is on an instance, scaling IN/OUT risks this media
+- The application media and UI store is local to an instance, scaling IN/OUT risks this media
+- Customer Connections are to an instance directly ... no health checks/auto healing
+- The IP of the instance is hardcoded into the database ....
+- Go to https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:sort=desc:tag:Name
+- Right click `Wordpress-Manual` , `Instance State`, `Stop`, `Yes, Stop`
+- Right click `Wordpress-Manual` , `Instance State`, `Start`, `Yes, Start`
+- the IP address has changed ... which is bad
+- Try browsing to it ...
+- What about the images....?
+- The images are pointing at the old IP address...
+-Now you can go and terminate your instance 
+
+You can now move onto Phase2
