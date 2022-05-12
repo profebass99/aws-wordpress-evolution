@@ -19,3 +19,4 @@ The architecture will start with a manually built single instance(MONOLITH), run
 - [Phase4](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20%26%20instructions/Phase-4.md)
 - [Phase5](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20%26%20instructions/Phase-5.md)
 - [Phase6](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20%26%20instructions/Phase-6.md)
+- [Phase7-clean-up](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20%26%20instructions/phase-7%20clean-up.md)
