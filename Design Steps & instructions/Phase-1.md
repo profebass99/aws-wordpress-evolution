@@ -4,14 +4,16 @@ Setup the environment which WordPress will run from.
 Configure some SSM Parameters which the manual and automatic stages of this advanced demo series will use and perform a manual install of wordpress and a database on the same EC2 instance.
 This is the starting point .. the common wordpress configuration which you will evolve over the coming demo stages.
 
-Phase 1A - Login to an AWS Account
+# Phase 1A - Login to an AWS Account
+
 Login to an AWS account using a user with admin privileges and ensure your region is set to us-east-1 N. Virginia
 
-Click HERE to auto configure the VPC which WordPress will run from
+Click [HERE](googl.com) to auto configure the VPC in which we will  be running wordpress
 
 Wait for the STACK to move into the CREATE_COMPLETE state before continuing.
 
-STAGE 1B - Create an EC2 Instance to run wordpress
+
+# Phae 1B - Create an EC2 Instance to run wordpress
 Move to the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1
 Click Launch Instance
 Locate the Amazon Linux 2 AMI (HVM), SSD Volume Type AMI
