@@ -83,3 +83,5 @@ This is a good way to do a rolling refresh of instances in an ASG.
 # STAGE 6 - FINISH  
 
 This is the end of the architecture evolution, 
+
+** NOW PROCEED TO CLEAN-UP** [Phase-7]()
