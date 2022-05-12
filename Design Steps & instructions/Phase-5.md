@@ -245,7 +245,7 @@ This configuration has several limitations :-
 - ~~The IP of the instance is hardcoded into the database ....~~ FIXED
 
 
-You can now optionally move onto [Phase-6]()
+You can now optionally move onto [Phase-6](https://github.com/profebass99/aws-wordpress-evolution/blob/main/Design%20Steps%20%26%20instructions/Phase-6.md)
 
 
 
