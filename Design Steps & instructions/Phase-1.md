@@ -1,6 +1,6 @@
-Welcome to Phase-1
+# Welcome to Phase-1
 
-Setup the environment which WordPress will run from.
+Here we will Setup the environment which WordPress will run from.
 Configure some SSM Parameters which the manual and automatic stages of this advanced demo series will use and perform a manual install of wordpress and a database on the same EC2 instance.
 This is the starting point .. the common wordpress configuration which you will evolve over the coming demo stages.
 
@@ -13,77 +13,98 @@ Click [HERE](googl.com) to auto configure the VPC in which we will  be running w
 Wait for the STACK to move into the CREATE_COMPLETE state before continuing.
 
 
-# Phae 1B - Create an EC2 Instance to run wordpress
-Move to the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1
-Click Launch Instance
-Locate the Amazon Linux 2 AMI (HVM), SSD Volume Type AMI
-ensure 64-bit (x86) is selected
-Click Select Select whatever instance shows as Free tier eligible
-Click Next: Configure Instance Details
-For Network select A4LVPC
-for Subnet select sn-Pub-A
-For IAM role select A4LVPC-WordpressInstanceProfile
-Check the box Unlimited against Credit specification Even though it says Additional Changes may apply thats only if the rolling 24 hour average exceeds baseline, it won't
-Click Next: Add Storage
-Click Next: Add Tags
-Click Add Tag
-Set Key to Name & set Value to Wordpress-Manual
-Click Next: Configure Security Group
-Check Select an existing security group
-Select A4LVPC-SGWordpress it will have randomness after it, thats ok :)
-Click Review and Launch
-Click Continue to the port 22 warning, thats ok
-Click Launch
-Select Proceed Without a key pair and check the acknowledge box
-Click Launch Instances
-Click View Instances
+# Phase 1B - Create an EC2 Instance to run wordpress
 
-Wait for the instance to be in a RUNNING state
-you can continue to stage 1B below while the instance is provisioning
+Move to the EC2 console https://console.aws.amazon.com/ec2/v2/home?region=us-east-1  
+Click `Launch Instance`  
+Find the `Amazon Linux 2 AMI (HVM), SSD Volume Type` AMI  
+Make sure  `64-bit (x86)` is selected  
+Click `Select`
+Select whichever instance shows as `Free tier eligible`  
+Click `Next: Configure Instance Details`  
+For `Network` select `Sunday-VPC`  
+for `Subnet` select `sn-Pub-A`  
+For `IAM role` select `Sunday-VPC-WordpressInstanceProfile`  
+Check the box `Unlimited` against `Credit specification`
+_Even though it says Additional Changes may apply thats only if the rolling 24 hour average exceeds baseline, it won't_  
+Click `Next: Add Storage`  
+Click `Next: Add Tags`  
+Click `Add Tag`  
+Set `Key` to `Name` & set `Value` to `Wordpress-Manual`  
+Click `Next: Configure Security Group`  
+Check `Select an existing security group`  
+Select `Sunday-VPC-SGWordpress` it will have randomness after it, thats ok :)  
+Click `Review and Launch`  
+Click `Continue` to the port 22 warning, its fine!! 👍  
+Click `Launch`  
+Select `Proceed Without a key pair` and check the acknowledge box  
+Click `Launch Instances`  
+Click `View Instances`  
 
-STAGE 1B - Create SSM Parameter Store values for wordpress
-Storing configuration information within the SSM Parameter store scales much better than attempting to script them in some way. In this sub-section you are going to create parameters to store the important configuration items for the platform you are building.
+Wait for the instance to be in the `RUNNING` state  
+_continue to phase 1C below while the instance is provisioning_
 
-Open a new tab to https://console.aws.amazon.com/systems-manager/home?region=us-east-1
-Click on Parameter Store on the menu on the left
+# Phase 1C - Create SSM Parameter Store values for wordpress
 
-Create Parameter - DBUser (the login for the specific wordpress DB)
-Click Create Parameter Set Name to /A4L/Wordpress/DBUser Set Description to Wordpress Database User
-Set Tier to Standard
-Set Type to String
-Set Data type to text
-Set Value to a4lwordpressuser
-Click Create parameter
+Storing configuration information within the SSM Parameter store scales much better than attempting to script them in some way.
+In this sub-section you are going to create parameters to store the important configuration items for the platform you are building.  
 
-Create Parameter - DBName (the name of the wordpress database)
-Click Create Parameter Set Name to /A4L/Wordpress/DBName Set Description to Wordpress Database Name
-Set Tier to Standard
-Set Type to String
-Set Data type to text
-Set Value to a4lwordpressdb
-Click Create parameter
+Open a new tab to https://console.aws.amazon.com/systems-manager/home?region=us-east-1  
+Click on `Parameter Store` on the menu on the left
 
-Create Parameter - DBEndpoint (the endpoint for the wordpress DB .. )
-Click Create Parameter Set Name to /A4L/Wordpress/DBEndpoint Set Description to Wordpress Endpoint Name
-Set Tier to Standard
-Set Type to String
-Set Data type to text
-Set Value to localhost
-Click Create parameter
+## Create Parameter - DBUser (the login for the specific wordpress DB)
 
-Create Parameter - DBPassword (the password for the DBUser)
-Click Create Parameter Set Name to /A4L/Wordpress/DBPassword Set Description to Wordpress DB Password
-Set Tier to Standard
-Set Type to SecureString
-Set KMS Key Source to My Current Account
-Leave KMS Key ID as default Set Value to 4n1m4l54L1f3 Click Create parameter
+## Create Parameter - DBUser (the login for the specific wordpress DB)  
+Click `Create Parameter`
+Set Name to `/Sunday/Wordpress/DBUser`
+Set Description to `Wordpress Database User`  
+Set Tier to `Standard`  
+Set Type to `String`  
+Set Data type to `text`  
+Set `Value` to `Sundaywordpressuser`  
+Click `Create parameter`  
 
-Create Parameter - DBRootPassword (the password for the database root user, used for self-managed admin)
-Click Create Parameter Set Name to /A4L/Wordpress/DBRootPassword Set Description to Wordpress DBRoot Password
-Set Tier to Standard
-Set Type to SecureString
-Set KMS Key Source to My Current Account
-Leave KMS Key ID as default Set Value to 4n1m4l54L1f3 Click Create parameter
+## Create Parameter - DBName (the name of the wordpress database)  
+Click `Create Parameter`
+Set Name to `/Sunday/Wordpress/DBName`
+Set Description to `Wordpress Database Name`  
+Set Tier to `Standard`  
+Set Type to `String`  
+Set Data type to `text`  
+Set `Value` to `Sundaywordpressdb`  
+Click `Create parameter` 
+
+## Create Parameter - DBEndpoint (the endpoint for the wordpress DB .. )  
+Click `Create Parameter`
+Set Name to `/Sunday/Wordpress/DBEndpoint`
+Set Description to `Wordpress Endpoint Name`  
+Set Tier to `Standard`  
+Set Type to `String`  
+Set Data type to `text`  
+Set `Value` to `localhost`  
+Click `Create parameter`  
+
+## Create Parameter - DBPassword (the password for the DBUser)  
+Click `Create Parameter`
+Set Name to `/A4L/Wordpress/DBPassword`
+Set Description to `Wordpress DB Password`  
+Set Tier to `Standard`  
+Set Type to `SecureString`  
+Set `KMS Key Source` to `My Current Account`  
+Leave `KMS Key ID` as default
+Set `Value` to `1234567890.`  you can as well choose your own passwrd but!!!! MAKE SURE TO REMEMBER IT!!!!!!!!
+Click `Create parameter`  
+
+## Create Parameter - DBRootPassword (the password for the database root user, used for self-managed admin)  
+Click `Create Parameter`
+Set Name to `/Sunday/Wordpress/DBRootPassword`
+Set Description to `Wordpress DBRoot Password`  
+Set Tier to `Standard`  
+Set Type to `SecureString`  
+Set `KMS Key Source` to `My Current Account`  
+Leave `KMS Key ID` as default
+Set `Value` to `1234567890.`
+Click `Create parameter`  
 
 STAGE 1C - Connect to the instance and install a database and wordpress
 Right click on Wordpress-Manual choose Connect Choose Session Manager
