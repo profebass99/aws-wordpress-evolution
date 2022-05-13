@@ -19,7 +19,7 @@ ensure `ipv4` selected for `IP Address type`
 Under `Listeners` `HTTP` and `80` should be selected for `Load Balancer Protocol` and `Load Balancer Port`  
 
 Scroll down, under `Availability Zones` 
-for VPC ensure `A4LVPC` is selected  
+for VPC ensure `Sunday-VPC` is selected  
 Check boxes next to `us-east-1a`, `us-east-1b` and `us-east-1c`  
 Select `sn-pub-A`, `sn-pub-B` and `sn-pub-C` for each.  
 
