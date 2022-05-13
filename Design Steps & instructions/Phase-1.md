@@ -10,6 +10,8 @@ Login to an AWS account using a user with admin privileges and ensure your regio
 
 Click [HERE](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Faws-wordpress-evolution.s3.amazonaws.com%2FSunday-VPC.yaml&stackName=Sunday-VPC) to auto configure the VPC in which we will  be running wordpress
 
+Check the `I acknowledge that AWS CloudFormation might create IAM resources.` box.
+
 Wait for the STACK to move into the CREATE_COMPLETE state before continuing.
 
 
