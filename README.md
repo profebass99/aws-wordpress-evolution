@@ -1,5 +1,5 @@
 # AWS-Wordpress-Evolution
-We are going to be evolving the popularly known web application wordpress into an elastic and scalable architecture.
+This Architecture will help you understand and design bit by bit an evolving popularly known web application wordpress into an elastic and scalable architecture.
 The architecture will start with a manually built single instance(MONOLITH), running the application and database over the stages of the demo you will evolve this until its a scalable and resilient architecture of 6 stages, each implementing additional components of the architecture
 
 * Phase 1 - Setting up the environment and manually build wordpress
