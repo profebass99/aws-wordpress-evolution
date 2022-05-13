@@ -8,7 +8,7 @@ This is the starting point .. the common wordpress configuration which you will 
 
 Login to an AWS account using a user with admin privileges and ensure your region is set to us-east-1 N. Virginia
 
-Click [HERE](googl.com) to auto configure the VPC in which we will  be running wordpress
+Click [HERE](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Faws-wordpress-evolution.s3.amazonaws.com%2FSunday-VPC.yaml&stackName=Sunday-VPC) to auto configure the VPC in which we will  be running wordpress
 
 Wait for the STACK to move into the CREATE_COMPLETE state before continuing.
 
