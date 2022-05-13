@@ -6,7 +6,7 @@ The architecture will start with a manually built single instance(MONOLITH), run
 * Phase 2 - Use automation by configuring a Launch Template
 * Phase 3 - Migrate the DB into RDS and Update the LT
 * Phase 4 - Create a WP filesystem into EFS and Update the LT(to store media contents of your wordpress) 
-* Phase 5 - Enable elasticity via a ASG & ALB and fix wordpress (hardcoded WPHOME IP)
+* Phase 5 - Enable elasticity & scalability via a ASG & ALB and fix wordpress (hardcoded WPHOME IP)
 * Phase 6 - tidy up your environs
 
 
